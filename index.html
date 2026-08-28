@@ -1,0 +1,1112 @@
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>나의 연애 애착 스타일 테스트 💗</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #fff1f6, #f1edff);
+    font-family: "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+    color: #252333;
+    line-height: 1.6;
+}
+
+.wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+}
+
+.card {
+    background: white;
+    border-radius: 26px;
+    box-shadow: 0 16px 45px rgba(80, 55, 100, 0.13);
+    padding: 32px;
+    margin-bottom: 18px;
+}
+
+/* 첫 화면 */
+.hero {
+    text-align: center;
+    padding: 42px 28px;
+}
+
+.hero h1 {
+    font-size: 34px;
+    margin: 0 0 10px;
+}
+
+.hero p {
+    color: #77758a;
+    margin: 0;
+}
+
+.badge {
+    display: inline-block;
+    background: #fff0f5;
+    color: #d84779;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* 진행률 */
+.progress-area {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(10px);
+    padding: 12px 0;
+    margin-bottom: 18px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #77758a;
+    margin-bottom: 7px;
+}
+
+.progress {
+    height: 8px;
+    background: #eeeaf3;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #e85d8c, #8f6de7);
+    transition: .25s;
+}
+
+/* 질문 */
+.question {
+    display: none;
+}
+
+.question.active {
+    display: block;
+}
+
+.qnum {
+    color: #e85d8c;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.question h2 {
+    font-size: 21px;
+    margin: 6px 0 20px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    border: 2px solid #eeeaf2;
+    border-radius: 15px;
+    padding: 14px 15px;
+    cursor: pointer;
+    transition: .18s;
+    background: white;
+}
+
+.option:hover {
+    border-color: #d9c9ee;
+    background: #fcf9ff;
+}
+
+.option.selected {
+    border-color: #e85d8c;
+    background: #fff3f7;
+    box-shadow: 0 3px 12px rgba(232,93,140,.12);
+}
+
+.option input {
+    display: none;
+}
+
+/* 버튼 */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+button {
+    border: 0;
+    border-radius: 13px;
+    padding: 13px 20px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.prev {
+    background: #f0edf3;
+    color: #555;
+}
+
+.next {
+    background: linear-gradient(90deg, #e85d8c, #8f6de7);
+    color: white;
+    flex: 1;
+    max-width: 240px;
+}
+
+.prev:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #d9416f;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+/* 결과 */
+.hidden {
+    display: none !important;
+}
+
+.result {
+    text-align: center;
+}
+
+.result h1 {
+    font-size: 32px;
+    margin: 6px 0;
+}
+
+.type {
+    font-size: 20px;
+    font-weight: 900;
+    color: #d84779;
+}
+
+.result p {
+    text-align: left;
+    color: #555;
+}
+
+/* 점수 */
+.score {
+    margin: 24px 0;
+    padding: 20px;
+    background: #faf7fc;
+    border-radius: 18px;
+}
+
+.barrow {
+    text-align: left;
+    margin: 13px 0;
+}
+
+.barrow-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.scorebar {
+    height: 11px;
+    background: #e9e5ed;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.scorefill {
+    height: 100%;
+    background: linear-gradient(90deg, #e85d8c, #8f6de7);
+}
+
+.result h3 {
+    text-align: left;
+    margin-top: 26px;
+}
+
+.insight {
+    background: #fff6f9;
+    border-radius: 15px;
+    padding: 16px;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.notice {
+    font-size: 12px;
+    color: #8a8792;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.restart {
+    background: #292536;
+    color: white;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* 모바일 */
+@media(max-width:600px) {
+
+    .card {
+        padding: 23px 18px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .question h2 {
+        font-size: 19px;
+    }
+
+    .option {
+        padding: 13px;
+    }
+
+    .nav {
+        position: sticky;
+        bottom: 8px;
+        background: white;
+        padding-top: 8px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="wrap">
+
+    <!-- 첫 화면 -->
+    <section class="card hero">
+
+        <div class="badge">
+            💗 연애 심리 테스트
+        </div>
+
+        <h1>
+            나의 연애 애착 스타일은?
+        </h1>
+
+        <p>
+            연애할 때 나는 어떤 방식으로 사랑하고 있을까요?
+        </p>
+
+        <p style="font-size:13px; margin-top:10px; color:#999;">
+            총 24문항 · 약 4~6분 · 정답은 없습니다
+        </p>
+
+    </section>
+
+
+    <!-- 진행률 -->
+    <div class="progress-area">
+
+        <div class="progress-top">
+
+            <span id="progressText">
+                1 / 24
+            </span>
+
+            <span id="answeredText">
+                응답 0개
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="bar"
+                id="bar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- 테스트 -->
+    <div class="card" id="testCard">
+
+        <div id="questions"></div>
+
+        <div
+            class="error"
+            id="error">
+        </div>
+
+    </div>
+
+
+    <!-- 결과 -->
+    <div
+        class="card result hidden"
+        id="result">
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   질문 데이터
+========================================= */
+
+const questions = [
+
+    [
+        "연인이 평소보다 연락이 뜸하면, 무슨 일이 있는지 걱정이 커진다.",
+        "anxiety"
+    ],
+
+    [
+        "연인과 가까워질수록 내 개인적인 공간도 중요하다고 느낀다.",
+        "avoidance"
+    ],
+
+    [
+        "갈등이 생겨도 결국 서로 대화해서 풀 수 있다고 믿는 편이다.",
+        "security"
+    ],
+
+    [
+        "연인이 나를 좋아하는지 확인하기 위해 자주 애정을 확인하고 싶다.",
+        "anxiety"
+    ],
+
+    [
+        "연인이 힘들어할 때 내가 도와줄 수 있다고 느끼며 편안하게 다가간다.",
+        "security"
+    ],
+
+    [
+        "연인에게 너무 의존하는 사람이 되는 것이 부담스럽다.",
+        "avoidance"
+    ],
+
+    [
+        "답장이 늦으면 내가 뭔가 잘못했을지도 모른다는 생각이 든다.",
+        "anxiety"
+    ],
+
+    [
+        "연인과 하루 종일 붙어 있기보다 각자의 시간을 보내는 것이 편하다.",
+        "avoidance"
+    ],
+
+    [
+        "연애 중에도 친구·취미·공부 등 나만의 생활을 유지할 수 있다.",
+        "security"
+    ],
+
+    [
+        "연인이 다른 사람에게 관심을 보이면 불안하거나 질투가 크게 난다.",
+        "anxiety"
+    ],
+
+    [
+        "누군가 나에게 지나치게 가까이 다가오면 거리를 두고 싶어진다.",
+        "avoidance"
+    ],
+
+    [
+        "서로의 감정과 필요를 솔직하게 말하는 것이 관계에 도움이 된다고 생각한다.",
+        "security"
+    ],
+
+    [
+        "연인이 나와의 관계를 진지하게 생각하는지 자주 확인하고 싶다.",
+        "anxiety"
+    ],
+
+    [
+        "힘든 일이 있어도 연인에게 기대기보다는 혼자 해결하는 편이 편하다.",
+        "avoidance"
+    ],
+
+    [
+        "상대의 마음이 나와 다를 수 있다는 것을 받아들이면서 대화할 수 있다.",
+        "security"
+    ],
+
+    [
+        "연인이 잠시 혼자 있고 싶다고 하면 나를 싫어하게 된 것처럼 느껴질 때가 있다.",
+        "anxiety"
+    ],
+
+    [
+        "연애를 하더라도 상대가 내 생활을 지나치게 간섭하는 것은 싫다.",
+        "avoidance"
+    ],
+
+    [
+        "관계에서 문제가 생기면 상대를 탓하기보다 함께 해결책을 찾으려 한다.",
+        "security"
+    ],
+
+    [
+        "연인이 나를 사랑한다는 확신이 있어도 가끔 버림받을까 걱정된다.",
+        "anxiety"
+    ],
+
+    [
+        "연애가 깊어질수록 오히려 자유를 잃는 느낌이 들어 답답해질 때가 있다.",
+        "avoidance"
+    ],
+
+    [
+        "상대가 내 감정을 받아주지 않는 순간이 있어도 관계 전체를 부정적으로 판단하지 않는다.",
+        "security"
+    ],
+
+    [
+        "싸운 뒤 상대가 먼저 연락하지 않으면 계속 신경 쓰인다.",
+        "anxiety"
+    ],
+
+    [
+        "감정적으로 힘들 때도 연인에게 약한 모습을 보이는 것이 어색하다.",
+        "avoidance"
+    ],
+
+    [
+        "친밀함과 독립성을 동시에 유지하는 연애가 가장 편안하다.",
+        "security"
+    ]
+
+];
+
+
+/* =========================================
+   선택지
+========================================= */
+
+const choices = [
+
+    ["전혀 그렇지 않다", 1],
+
+    ["그렇지 않은 편이다", 2],
+
+    ["보통이다", 3],
+
+    ["그런 편이다", 4],
+
+    ["매우 그렇다", 5]
+
+];
+
+
+let answers = Array(questions.length).fill(null);
+
+let current = 0;
+
+
+/* =========================================
+   질문 생성
+========================================= */
+
+const qbox = document.getElementById("questions");
+
+
+questions.forEach((q, i) => {
+
+    const el = document.createElement("section");
+
+    el.className =
+        "question" +
+        (i === 0 ? " active" : "");
+
+    el.id = "q" + i;
+
+
+    el.innerHTML = `
+
+        <div class="qnum">
+            QUESTION ${String(i + 1).padStart(2, "0")}
+        </div>
+
+        <h2>
+            ${q[0]}
+        </h2>
+
+        <div class="options">
+
+            ${choices.map((c, j) => `
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="q${i}"
+                        value="${c[1]}"
+                    >
+
+                    <span>
+                        ${c[0]}
+                    </span>
+
+                </label>
+
+            `).join("")}
+
+        </div>
+
+    `;
+
+
+    qbox.appendChild(el);
+
+
+    /* 답변 선택 */
+
+    el.querySelectorAll("input").forEach(inp => {
+
+        inp.addEventListener("change", () => {
+
+            answers[i] =
+                Number(inp.value);
+
+
+            el.querySelectorAll(".option")
+                .forEach(x =>
+                    x.classList.remove("selected")
+                );
+
+
+            inp.parentElement
+                .classList.add("selected");
+
+
+            update();
+
+        });
+
+    });
+
+});
+
+
+/* =========================================
+   진행률 업데이트
+========================================= */
+
+function update() {
+
+    document.getElementById("progressText")
+        .textContent =
+        `${current + 1} / ${questions.length}`;
+
+
+    const count =
+        answers.filter(x => x !== null).length;
+
+
+    document.getElementById("answeredText")
+        .textContent =
+        `응답 ${count}개`;
+
+
+    document.getElementById("bar")
+        .style.width =
+        `${(count / questions.length) * 100}%`;
+
+}
+
+
+/* =========================================
+   이전 / 다음
+========================================= */
+
+function go(delta) {
+
+    const error =
+        document.getElementById("error");
+
+
+    /* 다음 버튼을 눌렀는데
+       현재 질문에 답하지 않은 경우 */
+
+    if (
+        delta > 0 &&
+        answers[current] === null
+    ) {
+
+        error.textContent =
+            "현재 문항에 답변을 선택해주세요.";
+
+        return;
+    }
+
+
+    error.textContent = "";
+
+
+    document.getElementById("q" + current)
+        .classList.remove("active");
+
+
+    current += delta;
+
+
+    if (current < questions.length) {
+
+        document.getElementById("q" + current)
+            .classList.add("active");
+
+
+        update();
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } else {
+
+        showResult();
+
+    }
+
+}
+
+
+/* =========================================
+   결과 계산
+========================================= */
+
+function showResult() {
+
+    if (answers.some(x => x === null)) {
+
+        current =
+            answers.findIndex(x => x === null);
+
+        document.getElementById("q" + current)
+            .classList.add("active");
+
+        update();
+
+        return;
+    }
+
+
+    let anxiety = 0;
+
+    let avoidance = 0;
+
+    let security = 0;
+
+
+    questions.forEach((q, i) => {
+
+        if (q[1] === "anxiety") {
+
+            anxiety += answers[i];
+
+        }
+
+        else if (q[1] === "avoidance") {
+
+            avoidance += answers[i];
+
+        }
+
+        else if (q[1] === "security") {
+
+            security += answers[i];
+
+        }
+
+    });
+
+
+    /*
+       각 영역은 8문항 × 최대 5점 = 40점
+
+       최소점수 = 8점
+
+       8~40점을 0~100점으로 변환
+    */
+
+    const anxietyScore =
+        Math.round(
+            ((anxiety - 8) / 32) * 100
+        );
+
+
+    const avoidanceScore =
+        Math.round(
+            ((avoidance - 8) / 32) * 100
+        );
+
+
+    const securityScore =
+        Math.round(
+            ((security - 8) / 32) * 100
+        );
+
+
+    let type;
+
+    let title;
+
+    let desc;
+
+    let advice;
+
+
+    /* =====================================
+       유형 판정
+    ===================================== */
+
+
+    /* 안정형 */
+
+    if (
+        anxietyScore < 55 &&
+        avoidanceScore < 55
+    ) {
+
+        type =
+            "안정형에 가까운 편";
+
+        title =
+            "편안하게 가까워지는 사람 💚";
+
+        desc =
+            "친밀함을 원하면서도 자신의 삶과 경계를 유지하는 편입니다. 갈등이 생겼을 때 관계를 끝내거나 상대를 몰아붙이기보다 대화와 조율을 통해 해결하려는 경향이 나타납니다.";
+
+        advice =
+            "좋은 점을 유지하면서도 ‘괜찮다’고 넘기지 말고 서운함이나 원하는 것을 구체적으로 표현해보세요.";
+
+    }
+
+
+    /* 불안형 */
+
+    else if (
+        anxietyScore >= 55 &&
+        avoidanceScore < 55
+    ) {
+
+        type =
+            "불안형 경향";
+
+        title =
+            "사랑의 확신을 자주 확인하는 사람 💗";
+
+        desc =
+            "관계의 친밀감과 확신을 중요하게 여기며, 상대의 반응이 달라지면 관계가 멀어질까 걱정하기 쉬운 경향이 있습니다. 애정 확인이나 연락 빈도에 민감할 수 있습니다.";
+
+        advice =
+            "상대의 행동을 곧바로 관계의 가치로 해석하기보다, ‘지금 내가 불안해서 확인하고 싶은 것은 무엇인지’를 먼저 살펴보세요.";
+
+    }
+
+
+    /* 회피형 */
+
+    else if (
+        anxietyScore < 55 &&
+        avoidanceScore >= 55
+    ) {
+
+        type =
+            "회피형 경향";
+
+        title =
+            "나만의 공간이 중요한 사람 💙";
+
+        desc =
+            "독립성과 자기만의 시간을 중요하게 여기며, 감정적으로 지나치게 얽히는 상황에서는 부담을 느낄 수 있습니다. 혼자 해결하려는 힘이 강한 편입니다.";
+
+        advice =
+            "혼자 해결하는 것이 익숙하더라도 믿을 수 있는 사람에게 도움을 요청하고, 관계에서 필요한 친밀감의 정도를 말로 알려주는 연습이 도움이 됩니다.";
+
+    }
+
+
+    /* 불안-회피 혼합형 */
+
+    else {
+
+        type =
+            "불안-회피 혼합 경향";
+
+        title =
+            "가까워지고 싶지만 조심스러운 사람 💜";
+
+        desc =
+            "친밀함을 원하면서도 상처받거나 통제당할 가능성을 경계하는 두 가지 마음이 함께 나타날 수 있습니다. 상황과 상대에 따라 가까워졌다가 거리를 두는 패턴이 생길 수 있습니다.";
+
+        advice =
+            "불안할 때 매달리거나 갑자기 거리를 두기 전에 감정을 잠시 정리하고, ‘나는 지금 무엇이 두려운지’와 ‘상대에게 무엇을 원하는지’를 구분해보세요.";
+
+    }
+
+
+    /* =====================================
+       결과 화면
+    ===================================== */
+
+    const result =
+        document.getElementById("result");
+
+
+    result.innerHTML = `
+
+        <div class="badge">
+            ✨ 테스트 결과
+        </div>
+
+
+        <div class="type">
+            ${type}
+        </div>
+
+
+        <h1>
+            ${title}
+        </h1>
+
+
+        <p>
+            ${desc}
+        </p>
+
+
+        <div class="score">
+
+            <h3 style="text-align:center;margin-top:0;">
+                나의 관계 성향 점수
+            </h3>
+
+
+            ${createScore(
+                "안정감",
+                securityScore
+            )}
+
+
+            ${createScore(
+                "불안 성향",
+                anxietyScore
+            )}
+
+
+            ${createScore(
+                "거리두기 성향",
+                avoidanceScore
+            )}
+
+        </div>
+
+
+        <h3>
+            🔎 이렇게 해석해볼 수 있어요
+        </h3>
+
+
+        <div class="insight">
+
+            ${advice}
+
+        </div>
+
+
+        <div class="insight">
+
+            <b>💡 기억할 점</b>
+
+            <br>
+
+            애착 스타일은 고정된 성격이나
+            진단명이 아니며, 상대·관계·경험에
+            따라 달라질 수 있습니다.
+            이 결과는 자기이해를 위한
+            참고용 테스트입니다.
+
+        </div>
+
+
+        <div class="notice">
+
+            ※ 이 테스트는 임상적 진단 도구가 아닙니다.
+            결과가 현재의 나를 완벽하게 규정한다고
+            생각하기보다, 연애에서 반복되는 생각과
+            행동을 돌아보는 자료로 활용해보세요.
+
+        </div>
+
+
+        <button
+            class="restart"
+            onclick="location.reload()"
+        >
+            🔄 다시 테스트하기
+        </button>
+
+    `;
+
+
+    document
+        .getElementById("testCard")
+        .classList.add("hidden");
+
+
+    document
+        .querySelector(".progress-area")
+        .classList.add("hidden");
+
+
+    result.classList.remove("hidden");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================
+   점수 막대 생성
+========================================= */
+
+function createScore(name, value) {
+
+    value =
+        Math.max(
+            0,
+            Math.min(100, value)
+        );
+
+
+    return `
+
+        <div class="barrow">
+
+            <div class="barrow-head">
+
+                <span>
+                    ${name}
+                </span>
+
+                <span>
+                    ${value}점
+                </span>
+
+            </div>
+
+
+            <div class="scorebar">
+
+                <div
+                    class="scorefill"
+                    style="width:${value}%"
+                >
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =========================================
+   네비게이션 버튼
+========================================= */
+
+function updateNav() {
+
+    let old =
+        document.getElementById("nav");
+
+
+    if (old) {
+        old.remove();
+    }
+
+
+    const nav =
+        document.createElement("div");
+
+
+    nav.id = "nav";
+
+    nav.className = "nav";
+
+
+    nav.innerHTML = `
+
+        <button
+            class="prev"
+            ${current === 0 ? "disabled" : ""}
+            onclick="go(-1)"
+        >
+            ← 이전
+        </button>
+
+
+        <button
+            class="next"
+            onclick="go(1)"
+        >
+            ${
+                current === questions.length - 1
+                ? "결과 보기"
+                : "다음 →"
+            }
+        </button>
+
+    `;
+
+
+    document
+        .getElementById("testCard")
+        .appendChild(nav);
+
+}
+
+
+setInterval(updateNav, 100);
+
+update();
+
+</script>
+
+</body>
+</html>
+```
